@@ -11,29 +11,46 @@ from telegram.ext import CallbackContext
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
-        text=f'Assalomu alaykum {update.message.from_user.first_name}!',
+        text=f"""
+Assalomu alaykum {update.message.from_user.full_name}!
+
+Ijodimizga qiziqish bildirganingiz uchun tashakkur!
+
+Hozircha siz uchun futbolka, xudi, svitshot, kepka va stikerlar mavjud.
+Yaqin orada tanlovni kengaytiramiz. Aytganday, istagan turdagi kiyim buyurtma berganlarlarga qo'shimcha ravishda stikerpak sovg'a qilinadi :)
+
+Toshkent bo‘yicha yetkazib berish: 1–3 ish kuni
+O‘zbekiston bo‘yicha yetkazib berish: 3–7 ish kuni
+O‘zbekiston bo‘yicha jo‘natmalar seshanba va juma kunlari amalga oshiriladi
+
+450 000 so'mdan ortiq buyurtmalarni yetkazib berish - tekin!
+
+Agar bu shartlar sizni qoniqtirsa, “🔥 Mahsulotlar” bo'limiga o'tish orqali buyurtma berishni boshlashingiz mumkin.
+""",
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
                     KeyboardButton(
-                        text='🛍 Buyurtma berish',
-                        web_app=WebAppInfo(url='https://uzum.uz')
+                        text='🔥 Mahsulotlar ',
+                        web_app=WebAppInfo(url='https://www.apple.com/')
+                    )
+                ,
+                    KeyboardButton(
+                        text='📥Savat'
+                    )
+                ],
+                [ 
+                    KeyboardButton(
+                        text='💼 Hamkorlik'
+                    )
+                ,
+                    KeyboardButton(
+                        text='ℹ️ Malumot'
                     )
                 ],
                 [
                     KeyboardButton(
-                        text='📦 Buyurtmalarim'
-                    ),
-                    KeyboardButton(
-                        text='⚙️ Sozlamalar'
-                    )
-                ],
-                [
-                    KeyboardButton(
-                        text='ℹ️ Biz haqimizda'
-                    ), 
-                    KeyboardButton(
-                        text='✍️ Fikr qoldirish'
+                        text='🌐 Tilni tanlash'
                     )
                 ]
             ],
@@ -42,36 +59,44 @@ def start(update: Update, context: CallbackContext) -> None:
     )
     
 def send_orders(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('Sizda hali birorta ham buyurtma yo`q')
+    update.message.reply_text("Sizning savatingiz bo'sh")
     
-def send_about(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text('shu yerda joylashganmiz')
-    update.message.reply_markdown_v2('*Elektron pochta*: ||abror4work@gmail\.com||')
-    
-def send_settings(update: Update, context: CallbackContext) -> None:
+
+def send_info(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
-        text='⚙️ Sozlamalar',
+        text='ℹ️ Malumot',
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
                 [
                     KeyboardButton(
-                        text='🌐 Tilni o\'zgartirish'
+                        text='✍️ Izoh qoldirish'
                     )
                 ],
                 [
                     KeyboardButton(
-                        text='🌐 Raqamni o\'zgartirish'
+                        text='🚀 Yetkazib berish shartlari'
+                    )
+                ,
+                    KeyboardButton(
+                        text='☎️ Kontaktlar'
                     )
                 ],
                 [
                     KeyboardButton(
-                        text='Orqaga'
+                        text='🏠 Bosh menyu'
                     )
                 ],
             ]
         )
     )
-    
+
+
+def send_partnership(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text(
+        "Biz sizning kompaniyangiz bilan hamkorlik qilishdan mamnunmiz va sizning buyurtmangizga asosan "
+        "futbolkalar, xudi, svitshot va boshqa ko'p narsalarni tayyorlashimiz mumkin.\n\n"
+        "Menejer bilan bog'lanish uchun: @tirik_chilik"
+    )
 def change_language(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(
         text='tilni tanlang',
@@ -81,10 +106,12 @@ def change_language(update: Update, context: CallbackContext) -> None:
                     InlineKeyboardButton(
                         text='Uzbek',
                         callback_data='change_lang:uz'
-                    ),
+                    )
+                ],
+                [
                     InlineKeyboardButton(
-                        text='English',
-                        callback_data='movie:34'
+                        text='Русский',
+                        callback_data='change_lang:rus'
                     )
                 ]
             ]

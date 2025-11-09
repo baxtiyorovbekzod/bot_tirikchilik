@@ -1,11 +1,11 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-from config import Config
-from callbacks import start, send_orders, send_about, change_language, send_settings
+from config import TOKEN
+from callbacks import start, send_orders, send_info, change_language, send_partnership
 
 
 def main() -> None:
-    updater = Updater(Config.TOKEN)
+    updater = Updater(TOKEN)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(
@@ -17,35 +17,35 @@ def main() -> None:
 
     dispatcher.add_handler(
         handler=MessageHandler(
-            filters=Filters.text('📦 Buyurtmalarim'),
+            filters=Filters.text('📥Savat'),
             callback=send_orders
         )
     )
 
     dispatcher.add_handler(
         handler=MessageHandler(
-            filters=Filters.text('ℹ️ Biz haqimizda'),
-            callback=send_about
+            filters=Filters.text("ℹ️ Malumot"),
+            callback=send_info
         )
     )
 
     dispatcher.add_handler(
         handler=MessageHandler(
-            filters=Filters.text('⚙️ Sozlamalar'),
-            callback=send_settings
+            filters=Filters.text('💼 Hamkorlik'),
+            callback=send_partnership
         )
     )
 
     dispatcher.add_handler(
         handler=MessageHandler(
-            filters=Filters.text('Orqaga'),
+            filters=Filters.text('🏠 Bosh menyu'),
             callback=start
         )
     )
 
     dispatcher.add_handler(
         handler=MessageHandler(
-            filters=Filters.text('Tilni o\'zgartirish'),
+            filters=Filters.text('🌐 Tilni tanlash'),
             callback=change_language
         )
     )
