@@ -1,56 +1,80 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+import asyncio
+import pytz
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    CallbackQueryHandler,
+    filters,
+)
 
 from config import TOKEN
-from callbacks import start, send_orders, send_info, change_language, send_partnership
+from callbacks import (
+    start,
+    send_orders,
+    send_info,
+    change_language,
+    send_partnership,
+)
 
 
-def main() -> None:
-    updater = Updater(TOKEN)
-    dispatcher = updater.dispatcher
+async def main():
+    app = (
+        Application.builder()
+        .token(TOKEN)
+        .timezone(pytz.timezone("Asia/Tashkent"))
+        .build()
+    )
 
-    dispatcher.add_handler(
-        handler=CommandHandler(
-            command='start',
-            callback=start
+   
+    app.add_handler(
+        CommandHandler(
+            "start",
+            start
         )
     )
 
-    dispatcher.add_handler(
-        handler=MessageHandler(
-            filters=Filters.text('📥Savat'),
-            callback=send_orders
+    app.add_handler(
+        MessageHandler(
+            filters.Text("📥Savat"),
+            send_orders
         )
     )
 
-    dispatcher.add_handler(
-        handler=MessageHandler(
-            filters=Filters.text("ℹ️ Malumot"),
-            callback=send_info
+    
+    app.add_handler(
+        MessageHandler(
+            filters.Text("ℹ️ Malumot"),
+            send_info
         )
     )
 
-    dispatcher.add_handler(
-        handler=MessageHandler(
-            filters=Filters.text('💼 Hamkorlik'),
-            callback=send_partnership
+   
+    app.add_handler(
+        MessageHandler(
+            filters.Text("💼 Hamkorlik"),
+            send_partnership
         )
     )
 
-    dispatcher.add_handler(
-        handler=MessageHandler(
-            filters=Filters.text('🏠 Bosh menyu'),
-            callback=start
+
+    app.add_handler(
+        MessageHandler(
+            filters.Text("🏠 Bosh menyu"),
+            start
         )
     )
 
-    dispatcher.add_handler(
-        handler=MessageHandler(
-            filters=Filters.text('🌐 Tilni tanlash'),
-            callback=change_language
+   
+    app.add_handler(
+        MessageHandler(
+            filters.Text("🌐 Tilni tanlash"),
+            change_language
         )
     )
 
-    updater.start_polling()
-    updater.idle()
+    await app.run_polling()
 
-main()
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -1,16 +1,21 @@
+import asyncio
+
 from telegram import (
-    Update, 
-    ReplyKeyboardMarkup, 
-    KeyboardButton, 
-    WebAppInfo, 
-    InlineKeyboardMarkup, 
+    Update,
+    ReplyKeyboardMarkup,
+    KeyboardButton,
+    WebAppInfo,
+    InlineKeyboardMarkup,
     InlineKeyboardButton,
 )
-from telegram.ext import CallbackContext
+from telegram.ext import (
+    ContextTypes,
+)
 
 
-def start(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
         text=f"""
 Assalomu alaykum {update.message.from_user.full_name}!
 
@@ -31,86 +36,71 @@ Agar bu shartlar sizni qoniqtirsa, “🔥 Mahsulotlar” bo'limiga o'tish orqal
             keyboard=[
                 [
                     KeyboardButton(
-                        text='🔥 Mahsulotlar ',
+                        text='🔥 Mahsulotlar',
                         web_app=WebAppInfo(url='https://www.apple.com/')
-                    )
-                ,
-                    KeyboardButton(
-                        text='📥Savat'
-                    )
-                ],
-                [ 
-                    KeyboardButton(
-                        text='💼 Hamkorlik'
-                    )
-                ,
-                    KeyboardButton(
-                        text='ℹ️ Malumot'
-                    )
+                    ),
+                    KeyboardButton(text='📥Savat')
                 ],
                 [
-                    KeyboardButton(
-                        text='🌐 Tilni tanlash'
-                    )
+                    KeyboardButton(text='💼 Hamkorlik'),
+                    KeyboardButton(text='ℹ️ Malumot')
+                ],
+                [
+                    KeyboardButton(text='🌐 Tilni tanlash')
                 ]
             ],
             resize_keyboard=True,
         )
     )
-    
-def send_orders(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text("Sizning savatingiz bo'sh")
-    
 
-def send_info(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(
-        text='ℹ️ Malumot',
+
+
+async def send_orders(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text("Sizning savatingiz bo'sh")
+
+
+
+async def send_info(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        text='ℹ️ Maʼlumot',
         reply_markup=ReplyKeyboardMarkup(
             keyboard=[
+                [KeyboardButton(text='✍️ Izoh qoldirish')],
                 [
-                    KeyboardButton(
-                        text='✍️ Izoh qoldirish'
-                    )
+                    KeyboardButton(text='🚀 Yetkazib berish shartlari'),
+                    KeyboardButton(text='☎️ Kontaktlar')
                 ],
-                [
-                    KeyboardButton(
-                        text='🚀 Yetkazib berish shartlari'
-                    )
-                ,
-                    KeyboardButton(
-                        text='☎️ Kontaktlar'
-                    )
-                ],
-                [
-                    KeyboardButton(
-                        text='🏠 Bosh menyu'
-                    )
-                ],
-            ]
+                [KeyboardButton(text='🏠 Bosh menyu')],
+            ],
+            resize_keyboard=True,
         )
     )
 
 
-def send_partnership(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(
+# PARTNERSHIP
+async def send_partnership(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
         "Biz sizning kompaniyangiz bilan hamkorlik qilishdan mamnunmiz va sizning buyurtmangizga asosan "
         "futbolkalar, xudi, svitshot va boshqa ko'p narsalarni tayyorlashimiz mumkin.\n\n"
         "Menejer bilan bog'lanish uchun: @tirik_chilik"
     )
-def change_language(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text(
-        text='tilni tanlang',
+
+
+
+async def change_language(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(
+        text='Tilni tanlang:',
         reply_markup=InlineKeyboardMarkup(
             inline_keyboard=[
                 [
                     InlineKeyboardButton(
-                        text='Uzbek',
+                        text='🇺🇿 Uzbek',
                         callback_data='change_lang:uz'
                     )
                 ],
                 [
                     InlineKeyboardButton(
-                        text='Русский',
+                        text='🇷🇺 Русский',
                         callback_data='change_lang:rus'
                     )
                 ]
